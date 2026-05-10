@@ -1,6 +1,6 @@
 ## **Overview**
 
-MediCore is a hospital management application.
+MediCore is a hospital management application for doctor, patient, and admin users.
 
 ---
 
@@ -24,8 +24,8 @@ You need to setup c_cpp_properties.json and tasks.json for your vscode to point 
 
 ## **Showcase**
 
+![[main_menu.png]]
 
+![[patient_menu.png]]
 
 ---
-
-## **
