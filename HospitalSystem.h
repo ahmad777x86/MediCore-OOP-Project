@@ -41,7 +41,7 @@ private:
         int i = 0;
         int c;
 
-        while ((c = std::cin.get()) != '\n' && c != EOF && i < 31)
+        while ((c = cin.get()) != '\n' && c != EOF && i < 31)
         {
             buf[i] = (char)c;
             i++;
@@ -59,7 +59,7 @@ private:
         int i = 0;
         int c;
 
-        while ((c = std::cin.get()) != '\n' && c != EOF && i < maxLen - 1)
+        while ((c = cin.get()) != '\n' && c != EOF && i < maxLen - 1)
         {
             dst[i] = (char)c;
             i++;
@@ -142,9 +142,9 @@ private:
             char *idBuf = new char[32];
             char *pwBuf = new char[64];
 
-            std::cout << "Enter ID: ";
+            cout << "Enter ID: ";
             readLine(idBuf, 32);
-            std::cout << "Enter Password: ";
+            cout << "Enter Password: ";
             readLine(pwBuf, 64);
 
             bool found = false;
@@ -211,14 +211,14 @@ private:
 
             char *rem = new char[8];
             intToStr(3 - attempts, rem);
-            std::cout << "Invalid credentials. Attempts remaining: " << rem << "\n";
+            cout << "Invalid credentials. Attempts remaining: " << rem << "\n";
             delete[] rem;
 
             delete[] idBuf;
             delete[] pwBuf;
         }
 
-        std::cout << "Account locked. Contact admin.\n";
+        cout << "Account locked. Contact admin.\n";
         return false;
     }
 
@@ -227,7 +227,7 @@ private:
     void bookAppointment(Patient *pat)
     {
         char *spec = new char[60];
-        std::cout << "Enter specialization to search: ";
+        cout << "Enter specialization to search: ";
         readLine(spec, 60);
 
         // collect matching doctors into a dynamic array
@@ -248,29 +248,29 @@ private:
 
         if (mCount == 0)
         {
-            std::cout << "No doctors available for that specialization.\n";
+            cout << "No doctors available for that specialization.\n";
             delete[] matched;
             return;
         }
 
-        std::cout << "\nAvailable doctors:\n";
+        cout << "\nAvailable doctors:\n";
         for (int i = 0; i < mCount; i++)
         {
             char *fee = new char[32];
             floatToStr(matched[i]->getFee(), fee);
-            std::cout << "  ID:" << matched[i]->getId()
-                      << "  " << matched[i]->getName()
-                      << "  Fee: PKR " << fee << "\n";
+            cout << "  ID:" << matched[i]->getId()
+                 << "  " << matched[i]->getName()
+                 << "  Fee: PKR " << fee << "\n";
             delete[] fee;
         }
 
-        std::cout << "Enter Doctor ID: ";
+        cout << "Enter Doctor ID: ";
         int docId = readInt();
         Doctor *doc = doctors.findById(docId);
 
         if (!doc)
         {
-            std::cout << "Doctor not found.\n";
+            cout << "Doctor not found.\n";
             delete[] matched;
             return;
         }
@@ -283,18 +283,18 @@ private:
 
         while (true)
         {
-            std::cout << "Enter date (DD-MM-YYYY): ";
+            cout << "Enter date (DD-MM-YYYY): ";
             readLine(date, 12);
 
             if (Validator::isValidDate(date))
                 break;
 
-            std::cout << "Invalid date. Use format DD-MM-YYYY.\n";
+            cout << "Invalid date. Use format DD-MM-YYYY.\n";
             dateAttempt++;
 
             if (dateAttempt >= 3)
             {
-                std::cout << "Too many invalid attempts.\n";
+                cout << "Too many invalid attempts.\n";
                 delete[] date;
                 return;
             }
@@ -315,8 +315,8 @@ private:
 
         while (true)
         {
-            std::cout << "Available slots for Dr." << doc->getName()
-                      << " on " << date << ":\n";
+            cout << "Available slots for Dr." << doc->getName()
+                 << " on " << date << ":\n";
 
             for (int s = 0; s < 8; s++)
             {
@@ -337,15 +337,15 @@ private:
                     }
                 }
                 if (!taken)
-                    std::cout << "  " << allSlots[s] << "\n";
+                    cout << "  " << allSlots[s] << "\n";
             }
 
-            std::cout << "Enter time slot (e.g. 09:00): ";
+            cout << "Enter time slot (e.g. 09:00): ";
             readLine(slot, 8);
 
             if (!Validator::isValidTimeSlot(slot))
             {
-                std::cout << "Invalid slot.\n";
+                cout << "Invalid slot.\n";
                 continue;
             }
 
@@ -375,7 +375,7 @@ private:
                 }
                 catch (SlotUnavailableException &e)
                 {
-                    std::cout << e.what() << "\n";
+                    cout << e.what() << "\n";
                 }
                 continue;
             }
@@ -398,7 +398,7 @@ private:
 
             char *idStr = new char[16];
             intToStr(newApptId, idStr);
-            std::cout << "Appointment booked successfully. Appointment ID: " << idStr << "\n";
+            cout << "Appointment booked successfully. Appointment ID: " << idStr << "\n";
             delete[] idStr;
             delete[] today;
             delete[] slot;
@@ -425,23 +425,23 @@ private:
 
         if (pc == 0)
         {
-            std::cout << "You have no pending appointments.\n";
+            cout << "You have no pending appointments.\n";
             delete[] pending;
             return;
         }
 
-        std::cout << "\nPending appointments:\n";
-        std::cout << "ID     Doctor Name               Date         Slot\n";
+        cout << "\nPending appointments:\n";
+        cout << "ID     Doctor Name               Date         Slot\n";
 
         for (int i = 0; i < pc; i++)
         {
-            std::cout << pending[i]->getId() << "  "
-                      << getDoctorName(pending[i]->getDoctorId()) << "  "
-                      << pending[i]->getDate() << "  "
-                      << pending[i]->getTimeSlot() << "\n";
+            cout << pending[i]->getId() << "  "
+                 << getDoctorName(pending[i]->getDoctorId()) << "  "
+                 << pending[i]->getDate() << "  "
+                 << pending[i]->getTimeSlot() << "\n";
         }
 
-        std::cout << "Enter Appointment ID to cancel: ";
+        cout << "Enter Appointment ID to cancel: ";
         int apptId = readInt();
 
         Appointment *target = nullptr;
@@ -458,7 +458,7 @@ private:
 
         if (!target)
         {
-            std::cout << "Invalid appointment ID.\n";
+            cout << "Invalid appointment ID.\n";
             return;
         }
 
@@ -477,7 +477,7 @@ private:
         }
         FileHandler::saveAllBills(bills);
 
-        std::cout << "Appointment cancelled successfully.\n";
+        cout << "Appointment cancelled successfully.\n";
     }
 
     void viewMyAppointments(Patient *pat)
@@ -497,24 +497,24 @@ private:
 
         if (n == 0)
         {
-            std::cout << "No appointments found.\n";
+            cout << "No appointments found.\n";
             delete[] arr;
             return;
         }
 
         sortAppointmentsAsc(arr, n);
 
-        std::cout << "\nID     Doctor Name               Specialization    Date         Slot     Status\n";
+        cout << "\nID     Doctor Name               Specialization    Date         Slot     Status\n";
 
         for (int i = 0; i < n; i++)
         {
             Doctor *d = doctors.findById(arr[i]->getDoctorId());
-            std::cout << arr[i]->getId() << "  "
-                      << (d ? d->getName() : "Unknown") << "  "
-                      << (d ? d->getSpecialization() : "?") << "  "
-                      << arr[i]->getDate() << "  "
-                      << arr[i]->getTimeSlot() << "  "
-                      << arr[i]->getStatus() << "\n";
+            cout << arr[i]->getId() << "  "
+                 << (d ? d->getName() : "Unknown") << "  "
+                 << (d ? d->getSpecialization() : "?") << "  "
+                 << arr[i]->getDate() << "  "
+                 << arr[i]->getTimeSlot() << "  "
+                 << arr[i]->getStatus() << "\n";
         }
 
         delete[] arr;
@@ -537,21 +537,21 @@ private:
 
         if (n == 0)
         {
-            std::cout << "No medical records found.\n";
+            cout << "No medical records found.\n";
             delete[] arr;
             return;
         }
 
         sortPrescriptionsDesc(arr, n);
 
-        std::cout << "\nDate         Doctor Name           Medicines                                Notes\n";
+        cout << "\nDate         Doctor Name           Medicines                                Notes\n";
 
         for (int i = 0; i < n; i++)
         {
-            std::cout << arr[i]->getDate() << "  "
-                      << getDoctorName(arr[i]->getDoctorId()) << "  "
-                      << arr[i]->getMedicines() << "  "
-                      << arr[i]->getNotes() << "\n";
+            cout << arr[i]->getDate() << "  "
+                 << getDoctorName(arr[i]->getDoctorId()) << "  "
+                 << arr[i]->getMedicines() << "  "
+                 << arr[i]->getNotes() << "\n";
         }
 
         delete[] arr;
@@ -562,7 +562,7 @@ private:
         float totalUnpaid = 0;
         bool any = false;
 
-        std::cout << "\nBillID  ApptID  Amount      Status      Date\n";
+        cout << "\nBillID  ApptID  Amount      Status      Date\n";
 
         for (int i = 0; i < bills.size(); i++)
         {
@@ -573,11 +573,11 @@ private:
             char *amt = new char[32];
             floatToStr(b->getAmount(), amt);
 
-            std::cout << b->getId() << "  "
-                      << b->getAppointmentId() << "  PKR "
-                      << amt << "  "
-                      << b->getStatus() << "  "
-                      << b->getDate() << "\n";
+            cout << b->getId() << "  "
+                 << b->getAppointmentId() << "  PKR "
+                 << amt << "  "
+                 << b->getStatus() << "  "
+                 << b->getDate() << "\n";
 
             delete[] amt;
 
@@ -589,13 +589,13 @@ private:
 
         if (!any)
         {
-            std::cout << "No bills found.\n";
+            cout << "No bills found.\n";
             return;
         }
 
         char *tot = new char[32];
         floatToStr(totalUnpaid, tot);
-        std::cout << "\nTotal outstanding: PKR " << tot << "\n";
+        cout << "\nTotal outstanding: PKR " << tot << "\n";
         delete[] tot;
     }
 
@@ -617,24 +617,24 @@ private:
 
         if (uc == 0)
         {
-            std::cout << "No unpaid bills.\n";
+            cout << "No unpaid bills.\n";
             delete[] unpaid;
             return;
         }
 
-        std::cout << "\nUnpaid bills:\n";
+        cout << "\nUnpaid bills:\n";
         for (int i = 0; i < uc; i++)
         {
             char *amt = new char[32];
             floatToStr(unpaid[i]->getAmount(), amt);
-            std::cout << "  Bill ID:" << unpaid[i]->getId()
-                      << "  Appt:" << unpaid[i]->getAppointmentId()
-                      << "  PKR " << amt
-                      << "  Date:" << unpaid[i]->getDate() << "\n";
+            cout << "  Bill ID:" << unpaid[i]->getId()
+                 << "  Appt:" << unpaid[i]->getAppointmentId()
+                 << "  PKR " << amt
+                 << "  Date:" << unpaid[i]->getDate() << "\n";
             delete[] amt;
         }
 
-        std::cout << "Enter Bill ID to pay: ";
+        cout << "Enter Bill ID to pay: ";
         int billId = readInt();
         Bill *target = nullptr;
 
@@ -651,7 +651,7 @@ private:
 
         if (!target)
         {
-            std::cout << "Invalid bill ID.\n";
+            cout << "Invalid bill ID.\n";
             return;
         }
 
@@ -663,7 +663,7 @@ private:
             }
             catch (InsufficientFundsException &e)
             {
-                std::cout << e.what() << "\n";
+                cout << e.what() << "\n";
                 return;
             }
         }
@@ -675,7 +675,7 @@ private:
 
         char *bal = new char[32];
         floatToStr(pat->getBalance(), bal);
-        std::cout << "Bill paid successfully. Remaining balance: PKR " << bal << "\n";
+        cout << "Bill paid successfully. Remaining balance: PKR " << bal << "\n";
         delete[] bal;
     }
 
@@ -685,7 +685,7 @@ private:
 
         while (attempts < 3)
         {
-            std::cout << "Enter amount to add (PKR): ";
+            cout << "Enter amount to add (PKR): ";
             char *buf = new char[32];
             readLine(buf, 32);
 
@@ -705,18 +705,18 @@ private:
 
                 char *bal = new char[32];
                 floatToStr(pat->getBalance(), bal);
-                std::cout << "Balance updated. New balance: PKR " << bal << "\n";
+                cout << "Balance updated. New balance: PKR " << bal << "\n";
                 delete[] bal;
                 return;
             }
             catch (InvalidInputException &e)
             {
-                std::cout << e.what() << "\n";
+                cout << e.what() << "\n";
                 attempts++;
             }
         }
 
-        std::cout << "Too many invalid attempts.\n";
+        cout << "Too many invalid attempts.\n";
     }
 
     // ── DOCTOR ACTIONS ────────────────────────────────────────────────────────
@@ -742,7 +742,7 @@ private:
 
         if (n == 0)
         {
-            std::cout << "No appointments scheduled for today.\n";
+            cout << "No appointments scheduled for today.\n";
             delete[] today;
             delete[] arr;
             return;
@@ -758,13 +758,13 @@ private:
                     arr[j + 1] = tmp;
                 }
 
-        std::cout << "\nID     Patient Name          Slot     Status\n";
+        cout << "\nID     Patient Name          Slot     Status\n";
         for (int i = 0; i < n; i++)
         {
-            std::cout << arr[i]->getId() << "  "
-                      << getPatientName(arr[i]->getPatientId()) << "  "
-                      << arr[i]->getTimeSlot() << "  "
-                      << arr[i]->getStatus() << "\n";
+            cout << arr[i]->getId() << "  "
+                 << getPatientName(arr[i]->getPatientId()) << "  "
+                 << arr[i]->getTimeSlot() << "  "
+                 << arr[i]->getStatus() << "\n";
         }
 
         delete[] today;
@@ -776,7 +776,7 @@ private:
         char *today = new char[12];
         Validator::getTodayStr(today);
 
-        std::cout << "Enter Appointment ID: ";
+        cout << "Enter Appointment ID: ";
         int apptId = readInt();
         Appointment *a = appointments.findById(apptId);
 
@@ -784,14 +784,14 @@ private:
             myStrcmp(a->getStatus(), "pending") != 0 ||
             myStrcmp(a->getDate(), today) != 0)
         {
-            std::cout << "Invalid appointment ID.\n";
+            cout << "Invalid appointment ID.\n";
             delete[] today;
             return;
         }
 
         a->setStatus("completed");
         FileHandler::saveAllAppointments(appointments);
-        std::cout << "Appointment marked as completed.\n";
+        cout << "Appointment marked as completed.\n";
 
         delete[] today;
     }
@@ -801,7 +801,7 @@ private:
         char *today = new char[12];
         Validator::getTodayStr(today);
 
-        std::cout << "Enter Appointment ID: ";
+        cout << "Enter Appointment ID: ";
         int apptId = readInt();
         Appointment *a = appointments.findById(apptId);
 
@@ -809,7 +809,7 @@ private:
             myStrcmp(a->getStatus(), "pending") != 0 ||
             myStrcmp(a->getDate(), today) != 0)
         {
-            std::cout << "Invalid appointment ID.\n";
+            cout << "Invalid appointment ID.\n";
             delete[] today;
             return;
         }
@@ -829,21 +829,21 @@ private:
         }
 
         FileHandler::saveAllBills(bills);
-        std::cout << "Appointment marked as no-show.\n";
+        cout << "Appointment marked as no-show.\n";
 
         delete[] today;
     }
 
     void writePrescription(Doctor *doc)
     {
-        std::cout << "Enter Appointment ID: ";
+        cout << "Enter Appointment ID: ";
         int apptId = readInt();
         Appointment *a = appointments.findById(apptId);
 
         if (!a || a->getDoctorId() != doc->getId() ||
             myStrcmp(a->getStatus(), "completed") != 0)
         {
-            std::cout << "Invalid appointment.\n";
+            cout << "Invalid appointment.\n";
             return;
         }
 
@@ -852,7 +852,7 @@ private:
             Prescription *rx = prescriptions.getAll()[i];
             if (rx && rx->getAppointmentId() == apptId)
             {
-                std::cout << "Prescription already written for this appointment.\n";
+                cout << "Prescription already written for this appointment.\n";
                 return;
             }
         }
@@ -860,9 +860,9 @@ private:
         char *med = new char[500];
         char *notes = new char[300];
 
-        std::cout << "Enter medicines (format: MedicineName Dosage;...): ";
+        cout << "Enter medicines (format: MedicineName Dosage;...): ";
         readLine(med, 500);
-        std::cout << "Enter notes (max 300 chars): ";
+        cout << "Enter notes (max 300 chars): ";
         readLine(notes, 300);
 
         int newId = prescriptions.maxId() + 1;
@@ -872,7 +872,7 @@ private:
         prescriptions.add(rx);
         FileHandler::appendPrescription(*rx);
 
-        std::cout << "Prescription saved.\n";
+        cout << "Prescription saved.\n";
 
         delete[] med;
         delete[] notes;
@@ -880,13 +880,13 @@ private:
 
     void viewPatientHistory(Doctor *doc)
     {
-        std::cout << "Enter Patient ID: ";
+        cout << "Enter Patient ID: ";
         int pid = readInt();
         Patient *pat = patients.findById(pid);
 
         if (!pat)
         {
-            std::cout << "Access denied. You can only view records of your own patients.\n";
+            cout << "Access denied. You can only view records of your own patients.\n";
             return;
         }
 
@@ -905,7 +905,7 @@ private:
 
         if (!found)
         {
-            std::cout << "Access denied. You can only view records of your own patients.\n";
+            cout << "Access denied. You can only view records of your own patients.\n";
             return;
         }
 
@@ -924,7 +924,7 @@ private:
 
         if (n == 0)
         {
-            std::cout << "No records found.\n";
+            cout << "No records found.\n";
             delete[] arr;
             return;
         }
@@ -932,7 +932,7 @@ private:
         sortPrescriptionsDesc(arr, n);
 
         for (int i = 0; i < n; i++)
-            std::cout << *arr[i] << "\n";
+            cout << *arr[i] << "\n";
 
         delete[] arr;
     }
@@ -947,34 +947,34 @@ private:
         char *pw = new char[50];
         char *fee = new char[32];
 
-        std::cout << "Name: ";
+        cout << "Name: ";
         readLine(nm, 50);
-        std::cout << "Specialization: ";
+        cout << "Specialization: ";
         readLine(spec, 50);
 
         while (true)
         {
-            std::cout << "Contact (11 digits): ";
+            cout << "Contact (11 digits): ";
             readLine(ct, 16);
             if (Validator::isValidContact(ct))
                 break;
-            std::cout << "Invalid contact number.\n";
+            cout << "Invalid contact number.\n";
         }
         while (true)
         {
-            std::cout << "Password (min 6 chars): ";
+            cout << "Password (min 6 chars): ";
             readLine(pw, 50);
             if (Validator::isValidPassword(pw))
                 break;
-            std::cout << "Password too short.\n";
+            cout << "Password too short.\n";
         }
         while (true)
         {
-            std::cout << "Consultation fee: ";
+            cout << "Consultation fee: ";
             readLine(fee, 32);
             if (Validator::isPositiveFloat(fee))
                 break;
-            std::cout << "Invalid fee.\n";
+            cout << "Invalid fee.\n";
         }
 
         int newId = doctors.maxId() + 1;
@@ -984,7 +984,7 @@ private:
 
         char *idStr = new char[16];
         intToStr(newId, idStr);
-        std::cout << "Doctor added successfully. ID: " << idStr << "\n";
+        cout << "Doctor added successfully. ID: " << idStr << "\n";
         delete[] idStr;
 
         delete[] nm;
@@ -996,8 +996,8 @@ private:
 
     void removeDoctor()
     {
-        std::cout << "\nAll Doctors:\n";
-        std::cout << "ID   Name                      Specialization   Fee\n";
+        cout << "\nAll Doctors:\n";
+        cout << "ID   Name                      Specialization   Fee\n";
 
         for (int i = 0; i < doctors.size(); i++)
         {
@@ -1007,14 +1007,14 @@ private:
 
             char *fee = new char[32];
             floatToStr(d->getFee(), fee);
-            std::cout << d->getId() << "  "
-                      << d->getName() << "  "
-                      << d->getSpecialization() << "  PKR "
-                      << fee << "\n";
+            cout << d->getId() << "  "
+                 << d->getName() << "  "
+                 << d->getSpecialization() << "  PKR "
+                 << fee << "\n";
             delete[] fee;
         }
 
-        std::cout << "Enter Doctor ID to remove: ";
+        cout << "Enter Doctor ID to remove: ";
         int docId = readInt();
 
         for (int i = 0; i < appointments.size(); i++)
@@ -1023,7 +1023,7 @@ private:
             if (a && a->getDoctorId() == docId &&
                 myStrcmp(a->getStatus(), "pending") == 0)
             {
-                std::cout << "Cannot remove doctor with pending appointments. Cancel or reassign them first.\n";
+                cout << "Cannot remove doctor with pending appointments. Cancel or reassign them first.\n";
                 return;
             }
         }
@@ -1031,19 +1031,19 @@ private:
         Doctor *d = doctors.findById(docId);
         if (!d)
         {
-            std::cout << "Doctor not found.\n";
+            cout << "Doctor not found.\n";
             return;
         }
 
         doctors.removeById(docId);
         delete d;
         FileHandler::saveAllDoctors(doctors);
-        std::cout << "Doctor removed.\n";
+        cout << "Doctor removed.\n";
     }
 
     void viewAllPatients()
     {
-        std::cout << "\nID   Name                 Age  Gender  Contact         Balance    UnpaidBills\n";
+        cout << "\nID   Name                 Age  Gender  Contact         Balance    UnpaidBills\n";
 
         for (int i = 0; i < patients.size(); i++)
         {
@@ -1062,20 +1062,20 @@ private:
 
             char *bal = new char[32];
             floatToStr(p->getBalance(), bal);
-            std::cout << p->getId() << "  "
-                      << p->getName() << "  "
-                      << p->getAge() << "  "
-                      << p->getGender() << "  "
-                      << p->getContact() << "  PKR "
-                      << bal << "  "
-                      << unpaid << "\n";
+            cout << p->getId() << "  "
+                 << p->getName() << "  "
+                 << p->getAge() << "  "
+                 << p->getGender() << "  "
+                 << p->getContact() << "  PKR "
+                 << bal << "  "
+                 << unpaid << "\n";
             delete[] bal;
         }
     }
 
     void viewAllDoctors()
     {
-        std::cout << "\nID   Name                      Specialization   Contact         Fee\n";
+        cout << "\nID   Name                      Specialization   Contact         Fee\n";
 
         for (int i = 0; i < doctors.size(); i++)
         {
@@ -1085,11 +1085,11 @@ private:
 
             char *fee = new char[32];
             floatToStr(d->getFee(), fee);
-            std::cout << d->getId() << "  "
-                      << d->getName() << "  "
-                      << d->getSpecialization() << "  "
-                      << d->getContact() << "  PKR "
-                      << fee << "\n";
+            cout << d->getId() << "  "
+                 << d->getName() << "  "
+                 << d->getSpecialization() << "  "
+                 << d->getContact() << "  PKR "
+                 << fee << "\n";
             delete[] fee;
         }
     }
@@ -1110,16 +1110,16 @@ private:
 
         sortAppointmentsDesc(arr, n);
 
-        std::cout << "\nID     Patient               Doctor                Date         Slot     Status\n";
+        cout << "\nID     Patient               Doctor                Date         Slot     Status\n";
 
         for (int i = 0; i < n; i++)
         {
-            std::cout << arr[i]->getId() << "  "
-                      << getPatientName(arr[i]->getPatientId()) << "  "
-                      << getDoctorName(arr[i]->getDoctorId()) << "  "
-                      << arr[i]->getDate() << "  "
-                      << arr[i]->getTimeSlot() << "  "
-                      << arr[i]->getStatus() << "\n";
+            cout << arr[i]->getId() << "  "
+                 << getPatientName(arr[i]->getPatientId()) << "  "
+                 << getDoctorName(arr[i]->getDoctorId()) << "  "
+                 << arr[i]->getDate() << "  "
+                 << arr[i]->getTimeSlot() << "  "
+                 << arr[i]->getStatus() << "\n";
         }
 
         delete[] arr;
@@ -1130,7 +1130,7 @@ private:
         char *today = new char[12];
         Validator::getTodayStr(today);
 
-        std::cout << "\nBillID  Patient               Amount      Date\n";
+        cout << "\nBillID  Patient               Amount      Date\n";
 
         for (int i = 0; i < bills.size(); i++)
         {
@@ -1148,9 +1148,9 @@ private:
             if (diff > 7.0)
                 myStrcat(dateCol, " [OVERDUE]");
 
-            std::cout << b->getId() << "  "
-                      << getPatientName(b->getPatientId()) << "  PKR "
-                      << amt << "  " << dateCol << "\n";
+            cout << b->getId() << "  "
+                 << getPatientName(b->getPatientId()) << "  PKR "
+                 << amt << "  " << dateCol << "\n";
 
             delete[] amt;
             delete[] dateCol;
@@ -1161,13 +1161,13 @@ private:
 
     void dischargePatient()
     {
-        std::cout << "Enter Patient ID: ";
+        cout << "Enter Patient ID: ";
         int pid = readInt();
         Patient *p = patients.findById(pid);
 
         if (!p)
         {
-            std::cout << "Patient not found.\n";
+            cout << "Patient not found.\n";
             return;
         }
 
@@ -1177,7 +1177,7 @@ private:
             if (b && b->getPatientId() == pid &&
                 myStrcmp(b->getStatus(), "unpaid") == 0)
             {
-                std::cout << "Cannot discharge patient with unpaid bills.\n";
+                cout << "Cannot discharge patient with unpaid bills.\n";
                 return;
             }
         }
@@ -1188,7 +1188,7 @@ private:
             if (a && a->getPatientId() == pid &&
                 myStrcmp(a->getStatus(), "pending") == 0)
             {
-                std::cout << "Cannot discharge patient with pending appointments.\n";
+                cout << "Cannot discharge patient with pending appointments.\n";
                 return;
             }
         }
@@ -1232,7 +1232,7 @@ private:
         FileHandler::saveAllAppointments(appointments);
         FileHandler::saveAllBills(bills);
         FileHandler::saveAllPrescriptions(prescriptions);
-        std::cout << "Patient discharged and archived successfully.\n";
+        cout << "Patient discharged and archived successfully.\n";
     }
 
     void generateDailyReport()
@@ -1271,18 +1271,18 @@ private:
         char *revStr = new char[32];
         floatToStr(revenue, revStr);
 
-        std::cout << "\n=== Daily Report for " << today << " ===\n";
-        std::cout << "Total appointments today: " << total
-                  << " (Pending:" << pending
-                  << " Completed:" << completed
-                  << " No-show:" << noshow
-                  << " Cancelled:" << cancelled << ")\n";
-        std::cout << "Revenue collected today (paid bills): PKR " << revStr << "\n";
+        cout << "\n=== Daily Report for " << today << " ===\n";
+        cout << "Total appointments today: " << total
+             << " (Pending:" << pending
+             << " Completed:" << completed
+             << " No-show:" << noshow
+             << " Cancelled:" << cancelled << ")\n";
+        cout << "Revenue collected today (paid bills): PKR " << revStr << "\n";
 
         delete[] revStr;
 
-        std::cout << "\nPatients with outstanding unpaid bills:\n";
-        std::cout << "Patient Name         Total Owed\n";
+        cout << "\nPatients with outstanding unpaid bills:\n";
+        cout << "Patient Name         Total Owed\n";
 
         for (int i = 0; i < patients.size(); i++)
         {
@@ -1303,13 +1303,13 @@ private:
             {
                 char *owedStr = new char[32];
                 floatToStr(owed, owedStr);
-                std::cout << p->getName() << "  PKR " << owedStr << "\n";
+                cout << p->getName() << "  PKR " << owedStr << "\n";
                 delete[] owedStr;
             }
         }
 
-        std::cout << "\nDoctor-wise summary for today:\n";
-        std::cout << "Doctor Name               Completed  Pending  No-show\n";
+        cout << "\nDoctor-wise summary for today:\n";
+        cout << "Doctor Name               Completed  Pending  No-show\n";
 
         for (int i = 0; i < doctors.size(); i++)
         {
@@ -1334,7 +1334,7 @@ private:
             }
 
             if (dc + dp + dn > 0)
-                std::cout << d->getName() << "  " << dc << "  " << dp << "  " << dn << "\n";
+                cout << d->getName() << "  " << dc << "  " << dp << "  " << dn << "\n";
         }
 
         delete[] today;
@@ -1355,7 +1355,7 @@ public:
         }
         catch (FileNotFoundException &e)
         {
-            std::cout << "Warning: " << e.what() << "\n";
+            cout << "Warning: " << e.what() << "\n";
         }
     }
 
@@ -1400,10 +1400,10 @@ public:
                 topUpBalance(pat);
                 break;
             case 8:
-                std::cout << "Logging out...\n";
+                cout << "Logging out...\n";
                 break;
             default:
-                std::cout << "Invalid choice.\n";
+                cout << "Invalid choice.\n";
             }
         } while (choice != 8);
     }
@@ -1434,10 +1434,10 @@ public:
                 viewPatientHistory(doc);
                 break;
             case 6:
-                std::cout << "Logging out...\n";
+                cout << "Logging out...\n";
                 break;
             default:
-                std::cout << "Invalid choice.\n";
+                cout << "Invalid choice.\n";
             }
         } while (choice != 6);
     }
@@ -1480,23 +1480,23 @@ public:
                 generateDailyReport();
                 break;
             case 10:
-                std::cout << "Logging out...\n";
+                cout << "Logging out...\n";
                 break;
             default:
-                std::cout << "Invalid choice.\n";
+                cout << "Invalid choice.\n";
             }
         } while (choice != 10);
     }
 
     void run()
     {
-        std::cout << "Welcome to MediCore Hospital Management System\n";
-        std::cout << "===============================================\n";
+        cout << "Welcome to MediCore Hospital Management System\n";
+        cout << "===============================================\n";
 
         int roleChoice;
         do
         {
-            std::cout << "\nLogin as:\n1. Patient\n2. Doctor\n3. Admin\n4. Exit\nChoice: ";
+            cout << "\nLogin as:\n1. Patient\n2. Doctor\n3. Admin\n4. Exit\nChoice: ";
             roleChoice = readInt();
 
             if (roleChoice == 1)
@@ -1527,10 +1527,10 @@ public:
             }
             else if (roleChoice != 4)
             {
-                std::cout << "Invalid choice.\n";
+                cout << "Invalid choice.\n";
             }
         } while (roleChoice != 4);
 
-        std::cout << "Goodbye!\n";
+        cout << "Goodbye!\n";
     }
 };
