@@ -1386,13 +1386,17 @@ int main()
                 DrawTextEx(font, sid, {30, y}, 15, 1, TEXT_PRI);
                 DrawTextEx(font, p->getName(), {80, y}, 15, 1, TEXT_PRI);
                 DrawTextEx(font, age, {280, y}, 15, 1, TEXT_PRI);
-                DrawTextEx(font, p->getGender(), {330, y}, 15, 1, TEXT_PRI);
+                // Since gender is a char and not const char*
+                const char *gender_temp = new char(p->getGender());
+
+                DrawTextEx(font, gender_temp, {330, y}, 15, 1, TEXT_PRI);
                 DrawTextEx(font, p->getContact(), {410, y}, 15, 1, TEXT_PRI);
                 DrawTextEx(font, bal, {570, y}, 15, 1, TEXT_PRI);
                 char su[8];
                 intToStr(unpaid, su);
                 DrawTextEx(font, su, {680, y}, 15, 1, unpaid > 0 ? DANGER : TEXT_PRI);
                 y += 34;
+                delete gender_temp;
             }
             st.scroll.endClip();
             if (GuiButton({SW - 130, (float)(SH - 60), 110, 40}, "Back", font, {60, 70, 120, 255}, {80, 90, 150, 255}))
