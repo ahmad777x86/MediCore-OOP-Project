@@ -8,8 +8,6 @@
 #include "HospitalSystem.h"
 #include "src/Validator.h"
 #include "src/strutils.h"
-#include <cstdio>
-#include <cstring>
 
 // ── colour palette ────────────────────────────────────────────────────────────
 static const Color BG = {10, 14, 30, 255};          // dark navy
