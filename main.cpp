@@ -1,10 +1,11 @@
-#include "raylib.h"
-#include <iostream>
+#include "HospitalSystem.h"
 
-using namespace std;
-
+// main() is a sequence of function calls only (as per spec)
 int main()
 {
-    cout << "hell";
+    HospitalSystem hospital;
+    hospital.loadAll();
+    hospital.run();
+    hospital.freeAll();
     return 0;
 }
