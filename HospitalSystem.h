@@ -1,21 +1,21 @@
-#ifndef HOSPITALSYSTEM_H
-#define HOSPITALSYSTEM_H
-
-#include "Storage.h"
-#include "Patient.h"
-#include "Doctor.h"
-#include "Admin.h"
-#include "Appointment.h"
-#include "Bill.h"
-#include "Prescription.h"
-#include "FileHandler.h"
-#include "Validator.h"
-#include "HospitalException.h"
-#include "FileNotFoundException.h"
-#include "InsufficientFundsException.h"
-#include "InvalidInputException.h"
-#include "SlotUnavailableException.h"
+#pragma once
+#include "src/Storage.h"
+#include "src/Patient.h"
+#include "src/Doctor.h"
+#include "src/Admin.h"
+#include "src/Appointment.h"
+#include "src/Bill.h"
+#include "src/Prescription.h"
+#include "src/FileHandler.h"
+#include "src/Validator.h"
+#include "src/HospitalException.h"
+#include "src/FileNotFoundException.h"
+#include "src/InsufficientFundsException.h"
+#include "src/InvalidInputException.h"
+#include "src/SlotUnavailableException.h"
 #include <iostream>
+
+using namespace std;
 
 // HospitalSystem orchestrates all menus and business logic.
 // Stays in .h because Storage<T> is a template — the compiler needs
@@ -1534,5 +1534,3 @@ public:
         std::cout << "Goodbye!\n";
     }
 };
-
-#endif
