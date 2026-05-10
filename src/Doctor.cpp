@@ -1,13 +1,38 @@
 #include "Doctor.h"
 #include <iostream>
 
-Doctor::Doctor() : Person(), fee(0.0f) { specialization[0] = '\0'; }
+Doctor::Doctor() : Person(), fee(0.0f)
+{
+    specialization = new char[60];
+    specialization[0] = '\0';
+}
 
 Doctor::Doctor(int id, const char *nm, const char *spec,
                const char *ct, const char *pw, float f)
     : Person(id, nm, pw, ct), fee(f)
 {
+    specialization = new char[60];
     myStrncpy(specialization, spec, 60);
+}
+
+Doctor::Doctor(const Doctor &other)
+    : Person(other), fee(other.fee)
+{
+    specialization = new char[60];
+    myStrncpy(specialization, other.specialization, 60);
+}
+
+Doctor &Doctor::operator=(const Doctor &other)
+{
+    if (this != &other)
+    {
+        Person::operator=(other);
+
+        fee = other.fee;
+
+        myStrncpy(specialization, other.specialization, 60);
+    }
+    return *this;
 }
 
 const char *Doctor::getSpecialization() const { return specialization; }
@@ -46,3 +71,8 @@ void Doctor::displayMenu()
 }
 
 void Doctor::display() const { std::cout << *this << "\n"; }
+
+Doctor::~Doctor()
+{
+    delete[] specialization;
+}

@@ -41,12 +41,12 @@ void FileHandler::loadPatients(Storage<Patient> &store)
         if (line[0] == '\0')
             continue;
 
-        char sid[16], nm[100], age[8], gen[4], ct[16], pw[50], bal[32];
+        char sid[16], nm[100], age[8], gen, ct[16], pw[50], bal[32];
         const char *p = line;
         p = parseToken(p, sid, 16, ',');
         p = parseToken(p, nm, 100, ',');
         p = parseToken(p, age, 8, ',');
-        p = parseToken(p, gen, 4, ',');
+        p = parseToken(p, gen, ',');
         p = parseToken(p, ct, 16, ',');
         p = parseToken(p, pw, 50, ',');
         p = parseToken(p, bal, 32, ',');

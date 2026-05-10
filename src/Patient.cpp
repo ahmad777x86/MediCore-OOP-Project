@@ -3,21 +3,22 @@
 
 Patient::Patient() : Person(), age(0), balance(0.0f)
 {
-    gender[0] = '\0';
+    gender = 'M';
 }
 
-Patient::Patient(int id, const char *nm, int age, const char *gen,
+Patient::Patient(int id, const char *nm, int age, char gen,
                  const char *contact, const char *pw, float bal)
-    : Person(id, nm, pw, contact), age(age), balance(bal)
+    : Person(id, nm, pw, contact), age(age), balance(bal), gender(gen)
 {
-    myStrncpy(gender, gen, 4);
 }
-
-int Patient::getAge() const { return age; }
-const char *Patient::getGender() const { return gender; }
+int Patient::getAge() const
+{
+    return age;
+}
+char Patient::getGender() const { return gender; }
 float Patient::getBalance() const { return balance; }
 void Patient::setAge(int a) { age = a; }
-void Patient::setGender(const char *g) { myStrncpy(gender, g, 4); }
+void Patient::setGender(char g) { gender = g; }
 void Patient::setBalance(float b) { balance = b; }
 
 Patient &Patient::operator+=(float amount)

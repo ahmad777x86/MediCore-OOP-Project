@@ -6,19 +6,19 @@ class Patient : public Person
 {
 private:
     int age;
-    char gender[4]; // M / F
+    char gender; // M / F
     float balance;
 
 public:
     Patient();
-    Patient(int id, const char *name, int age, const char *gender,
+    Patient(int id, const char *name, int age, char gender,
             const char *contact, const char *password, float balance);
 
     int getAge() const;
-    const char *getGender() const;
+    char getGender() const;
     float getBalance() const;
     void setAge(int a);
-    void setGender(const char *g);
+    void setGender(char g);
     void setBalance(float b);
 
     Patient &operator+=(float amount);           // add to balance

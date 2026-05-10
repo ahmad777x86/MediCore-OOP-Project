@@ -3,6 +3,8 @@
 
 Bill::Bill() : id(0), patientId(0), appointmentId(0), amount(0.0f)
 {
+    status = new char[12];
+    date = new char[12];
     status[0] = date[0] = '\0';
 }
 
@@ -10,8 +12,37 @@ Bill::Bill(int id, int patId, int apptId, float amt,
            const char *st, const char *dt)
     : id(id), patientId(patId), appointmentId(apptId), amount(amt)
 {
+    status = new char[12];
+    date = new char[12];
     myStrncpy(status, st, 12);
     myStrncpy(date, dt, 12);
+}
+
+Bill::Bill(const Bill &other)
+    : id(other.id), patientId(other.patientId),
+      appointmentId(other.appointmentId), amount(other.amount)
+{
+    status = new char[12];
+    date = new char[12];
+
+    myStrncpy(status, other.status, 12);
+    myStrncpy(date, other.date, 12);
+}
+
+Bill &Bill::operator=(const Bill &other)
+{
+    if (this != &other)
+    {
+        id = other.id;
+        patientId = other.patientId;
+        appointmentId = other.appointmentId;
+        amount = other.amount;
+
+        myStrncpy(status, other.status, 12);
+        myStrncpy(date, other.date, 12);
+    }
+
+    return *this;
 }
 
 int Bill::getId() const { return id; }
@@ -37,4 +68,10 @@ std::ostream &operator<<(std::ostream &os, const Bill &b)
        << " PKR:" << buf
        << " [" << b.status << "] " << b.date;
     return os;
+}
+
+Bill::~Bill()
+{
+    delete[] status;
+    delete[] date;
 }

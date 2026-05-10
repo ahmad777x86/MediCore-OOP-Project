@@ -5,15 +5,18 @@
 class Doctor : public Person
 {
 private:
-    char specialization[60];
+    char *specialization;
     float fee;
 
 public:
     Doctor();
     Doctor(int id, const char *name, const char *spec,
            const char *contact, const char *password, float fee);
+    Doctor::Doctor(const Doctor &other);
 
     const char *getSpecialization() const;
+    Doctor &Doctor::operator=(const Doctor &other);
+
     float getFee() const;
     void setSpecialization(const char *s);
     void setFee(float f);
@@ -23,4 +26,5 @@ public:
 
     void displayMenu() override;
     void display() const override;
+    ~Doctor();
 };

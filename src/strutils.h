@@ -21,6 +21,8 @@ bool myStrEqCI(const char *a, const char *b);
 // returns a pointer to the character right after the comma
 const char *parseToken(const char *src, char *dst, int maxLen, char delim);
 
+const char *parseToken(const char *src, char &dst, char delim);
+
 // converts an integer number to a string and stores it in buf
 void intToStr(int val, char *buf);
 

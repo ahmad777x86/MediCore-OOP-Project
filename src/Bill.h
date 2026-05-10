@@ -9,14 +9,16 @@ private:
     int patientId;
     int appointmentId;
     float amount;
-    char status[12]; // unpaid / paid / cancelled
-    char date[12];   // DD-MM-YYYY
+    char *status; // unpaid / paid / cancelled
+    char *date;   // DD-MM-YYYY
 
 public:
     Bill();
     Bill(int id, int patId, int apptId, float amount,
          const char *status, const char *date);
-
+    Bill(const Bill &other);
+    Bill &operator=(const Bill &other);
+    ~Bill();
     int getId() const;
     int getPatientId() const;
     int getAppointmentId() const;

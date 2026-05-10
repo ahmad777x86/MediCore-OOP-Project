@@ -116,6 +116,36 @@ const char *parseToken(const char *src, char *dst, int maxLen, char delim)
     return src + i;
 }
 
+const char *parseToken(const char *src, char &dst, char delim)
+{
+    // If the string starts with a valid character that is NOT the delimiter or newline
+    if (src[0] != '\0' && src[0] != delim && src[0] != '\n' && src[0] != '\r')
+    {
+        dst = src[0]; // Assign the single character
+
+        // Find where the delimiter is to return the correct pointer
+        int i = 1;
+        while (src[i] != '\0' && src[i] != delim && src[i] != '\n' && src[i] != '\r')
+        {
+            i++;
+        }
+
+        if (src[i] == delim)
+        {
+            return src + i + 1;
+        }
+        return src + i;
+    }
+
+    // Fallback: if we start immediately on a null/delimiter/newline
+    dst = '\0';
+    if (src[0] == delim)
+    {
+        return src + 1;
+    }
+    return src;
+}
+
 // converts a whole number into its text form and stores it in buf
 // for example: 42 becomes "42"
 void intToStr(int val, char *buf)

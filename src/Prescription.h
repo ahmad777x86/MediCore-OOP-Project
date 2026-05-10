@@ -9,15 +9,16 @@ private:
     int appointmentId;
     int patientId;
     int doctorId;
-    char date[12];
-    char medicines[500];
-    char notes[300];
+    char *date;
+    char *medicines;
+    char *notes;
 
 public:
     Prescription();
     Prescription(int id, int apptId, int patId, int docId,
                  const char *date, const char *medicines, const char *notes);
-
+    Prescription(const Prescription &other);
+    Prescription &operator=(const Prescription &other);
     int getId() const;
     int getAppointmentId() const;
     int getPatientId() const;
@@ -35,4 +36,6 @@ public:
     void setNotes(const char *n);
 
     friend std::ostream &operator<<(std::ostream &os, const Prescription &p);
+
+    ~Prescription();
 };

@@ -1,18 +1,60 @@
 #include "Appointment.h"
 #include <iostream>
 
-Appointment::Appointment() : id(0), patientId(0), doctorId(0)
+Appointment::Appointment()
+    : id(0), patientId(0), doctorId(0)
 {
-    date[0] = timeSlot[0] = status[0] = '\0';
+    // Allocate exact sizes (+1 for safety if needed, matching original limits)
+    date = new char[12]{'\0'};
+    timeSlot = new char[8]{'\0'};
+    status = new char[12]{'\0'};
 }
 
+// Parameterized Constructor
 Appointment::Appointment(int id, int patId, int docId,
-                         const char *d, const char *slot, const char *st)
+                         const char *dt, const char *slot, const char *st)
     : id(id), patientId(patId), doctorId(docId)
 {
-    myStrncpy(date, d, 12);
+    date = new char[12];
+    timeSlot = new char[8];
+    status = new char[12];
+
+    myStrncpy(date, dt, 12);
     myStrncpy(timeSlot, slot, 8);
     myStrncpy(status, st, 12);
+}
+Appointment::Appointment(const Appointment &other)
+    : id(other.id), patientId(other.patientId), doctorId(other.doctorId)
+{
+    date = new char[12];
+    timeSlot = new char[8];
+    status = new char[12];
+
+    myStrncpy(date, other.date, 12);
+    myStrncpy(timeSlot, other.timeSlot, 8);
+    myStrncpy(status, other.status, 12);
+}
+
+Appointment &Appointment::operator=(const Appointment &other)
+{
+    if (this != &other)
+    {
+        id = other.id;
+        patientId = other.patientId;
+        doctorId = other.doctorId;
+
+        myStrncpy(date, other.date, 12);
+        myStrncpy(timeSlot, other.timeSlot, 8);
+        myStrncpy(status, other.status, 12);
+    }
+    return *this;
+}
+
+Appointment::~Appointment()
+{
+    delete[] date;
+    delete[] timeSlot;
+    delete[] status;
 }
 
 int Appointment::getId() const { return id; }

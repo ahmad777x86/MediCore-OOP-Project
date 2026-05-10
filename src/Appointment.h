@@ -8,14 +8,17 @@ private:
     int id;
     int patientId;
     int doctorId;
-    char date[12];    // DD-MM-YYYY
-    char timeSlot[8]; // HH:MM
-    char status[12];  // pending / completed / cancelled / noshow
+    char *date;     // DD-MM-YYYY
+    char *timeSlot; // HH:MM
+    char *status;   // pending / completed / cancelled / noshow
 
 public:
     Appointment();
     Appointment(int id, int patId, int docId,
                 const char *date, const char *slot, const char *status);
+    Appointment(const Appointment &other);
+    Appointment &operator=(const Appointment &other);
+    ~Appointment();
 
     int getId() const;
     int getPatientId() const;
