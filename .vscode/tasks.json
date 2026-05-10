@@ -1,0 +1,110 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Build Raylib C++",
+            "type": "shell",
+            "command": "C:\\raylib\\w64devkit\\bin\\g++.exe",
+            "args": [
+                "main.cpp",
+                "-o",
+                "main.exe",
+                "-I",
+                "C:/raylib/raylib/src",
+                "-L",
+                "C:/raylib/raylib/src",
+                "-lraylib",
+                "-lopengl32",
+                "-lgdi32",
+                "-lwinmm"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "build debug",
+            "type": "process",
+            "command": "make",
+            "args": [
+                "PLATFORM=PLATFORM_DESKTOP",
+                "BUILD_MODE=DEBUG"
+            ],
+            "windows": {
+                "command": "C:/raylib/w64devkit/bin/mingw32-make.exe",
+                "args": [
+                    "RAYLIB_PATH=C:/raylib/raylib",
+                    "PROJECT_NAME=${fileBasenameNoExtension}",
+                    "OBJS=*.cpp",
+                    "BUILD_MODE=DEBUG"
+                ]
+            },
+            "osx": {
+                "args": [
+                    "PROJECT_NAME=${fileBasenameNoExtension}",
+                    "OBJS=*.cpp",
+                    "BUILD_MODE=DEBUG"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "PROJECT_NAME=${fileBasenameNoExtension}",
+                    "DESTDIR=/home/linuxbrew/.linuxbrew",
+                    "RAYLIB_LIBTYPE=SHARED",
+                    "EXAMPLE_RUNTIME_PATH=/home/linuxbrew/.linuxbrew/lib",
+                    "OBJS=*.cpp",
+                    "BUILD_MODE=DEBUG"
+                ]
+            },
+            "group": "build",
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "build release",
+            "type": "process",
+            "command": "make",
+            "args": [
+                "PLATFORM=PLATFORM_DESKTOP"
+            ],
+            "windows": {
+                "command": "C:/raylib/w64devkit/bin/mingw32-make.exe",
+                "args": [
+                    "RAYLIB_PATH=C:/raylib/raylib",
+                    "PROJECT_NAME=${fileBasenameNoExtension}",
+                    "OBJS=*.cpp"
+                ]
+            },
+            "osx": {
+                "args": [
+                    "PROJECT_NAME=${fileBasenameNoExtension}",
+                    "OBJS=*.cpp"
+                ]
+            },
+            "linux": {
+                "args": [
+                    "PROJECT_NAME=${fileBasenameNoExtension}",
+                    "DESTDIR=/home/linuxbrew/.linuxbrew",
+                    "RAYLIB_LIBTYPE=SHARED",
+                    "EXAMPLE_RUNTIME_PATH=/home/linuxbrew/.linuxbrew/lib",
+                    "OBJS=*.cpp"
+                ]
+            },
+            "problemMatcher": [
+                "$gcc"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "detail": "compiler: C:\\raylib\\mingw\\bin\\g++.exe"
+        }
+    ]
+}
